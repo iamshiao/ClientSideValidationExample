@@ -1,0 +1,95 @@
+﻿@using ClientSideValidation.Models
+@model Person
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section styles
+{
+    <style>
+        .buffer-bottom {
+            margin-bottom: 10px;
+        }
+
+        .buffer-bottom-50 {
+            margin-bottom: 50px;
+        }
+
+        .buffer-right {
+            margin-right: 10px;
+        }
+
+        .same-width-iga {
+            width: 70px;
+        }
+
+        select.error, textarea.error, input.error, label.error {
+            color: #DF0101;
+        }
+    </style>
+}
+<div>
+    <h1>JQuery Validation Example - Client Only</h1>
+    <hr />
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "form1", @class = "form1", name = "form1" }))
+    {
+        <div class="bs-callout bs-callout-primary">
+            <h4>Person info form</h4>
+            <p>Plz fill in the personal info and press submit btn to send data back.</p>
+        </div>
+
+        <div class="form-group buffer-bottom">
+            <div class="input-group">
+                <span class="input-group-addon same-width-iga">Name</span>
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { placeholder = "Andy", @class = "form-control", id = "txtName" } })
+            </div>
+        </div>
+
+        <div class="form-group buffer-bottom">
+            <div class="input-group">
+                <span class="input-group-addon same-width-iga">Age</span>
+                @Html.EditorFor(m => m.Age, new { htmlAttributes = new { placeholder = 18, @class = "form-control", id = "txtAge" } })
+            </div>
+        </div>
+        <button class="btn btn-default buffer-right">Cancel</button><button class="btn btn-primary" id="btnSubmit">Submit</button>
+    }
+</div>
+
+@section scripts {
+    <script>      
+        // input name issue 
+        var validator = $("#form1").validate({
+            rules: {
+                Name: "required",
+                Age: {
+                    required: true,
+                    min: 18
+                }
+            },
+            messages: {
+                required: "*必填欄位",
+                min: jQuery.validator.format("*年齡須大於{0}")
+            }
+        });
+
+        //necceray before u add rule
+        //$("#form1").validate();
+
+        //$("#txtName").rules("add", {
+        //    required: true,
+        //    messages: {
+        //        required: "*必填欄位"
+        //    }
+        //});
+
+        //$("#txtAge").rules("add", {
+        //    required: true,
+        //    min: 18,
+        //    messages: {
+        //        required: "*必填欄位",
+        //        min: jQuery.validator.format("*年齡須大於{0}")
+        //    }
+        //});
+    </script>
+}
